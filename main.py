@@ -16,9 +16,9 @@ async def on_ready():
     print(f"{bot.user} bora fecha porra!")
     bot.get_guild(165698427819130881).fetch_members()
 
-    while True:
-        print('Heroku health-check!')
-        await asyncio.sleep(240)
+    # while True:
+    #     print('Heroku health-check!') # testar sem isso apos web to worker
+    #     await asyncio.sleep(240)
 
 
 @bot.event
