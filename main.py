@@ -16,6 +16,10 @@ async def on_ready():
     print(f"{bot.user} bora fecha porra!")
     bot.get_guild(165698427819130881).fetch_members()
 
+    while True:
+        print('Heroku health-check!')
+        await asyncio.sleep(300)
+
 
 @bot.event
 async def on_message(ctx):
@@ -66,7 +70,7 @@ async def on_member_update(before, after):
 async def on_voice_state_update(member, before, after):
     if before.self_deaf == False and after.self_deaf == True:
         await send_message_on_shitposting(f'{member.nick} se mutar vai levar um KIKAO NOS PEITO')
-        await asyncio.sleep(60)
+        await asyncio.sleep(120)
         if member.voice.self_deaf:
             await member.move_to(get_afk_channel())
 
