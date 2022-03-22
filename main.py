@@ -18,7 +18,7 @@ async def on_ready():
 
     while True:
         print('Heroku health-check!')
-        await asyncio.sleep(300)
+        await asyncio.sleep(240)
 
 
 @bot.event
