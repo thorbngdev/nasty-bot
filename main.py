@@ -4,11 +4,11 @@ from discord.ext import commands
 from utils.credentials import get_bot_token
 import discord
 
-# documentation -> https://discordpy.readthedocs.io/en
+# documentation -> https://discordpy.readthedocs.io/en/stable/api.html
 intents = discord.Intents.default()
 intents.members = True
 intents.voice_states = True
-bot = commands.Bot(command_prefix='&', intents=intents)
+bot = commands.Bot(command_prefix='&', intents=intents, help_command=None)
 
 
 @bot.event
@@ -59,6 +59,14 @@ async def on_message(ctx):
 async def nasty(ctx, arg):
     try:
         await ctx.channel.send(f'{arg} NASTY')
+    except Exception as e:
+        print(e.args)
+
+
+@bot.command()
+async def help(ctx):
+    try:
+        await ctx.channel.send('_)_')
     except Exception as e:
         print(e.args)
 
