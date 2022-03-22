@@ -1,0 +1,2 @@
+# nasty-bot
+BOT RUSTICO
