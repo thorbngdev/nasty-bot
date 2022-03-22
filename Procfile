@@ -1,1 +1,1 @@
-web: gunicorn nasty-bot-app.wsgi
+web: python3 main.py
