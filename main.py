@@ -71,7 +71,7 @@ async def on_member_update(before, after):
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-    if before.self_deaf == False and after.self_deaf == True:
+    if after.self_deaf and not before.self_deaf:
         await send_message_on_shitposting(f'{member.nick} se mutar vai levar um KIKAO NOS PEITO')
         await asyncio.sleep(120)
         if member.voice.self_deaf:
