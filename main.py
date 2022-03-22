@@ -8,17 +8,13 @@ import discord
 intents = discord.Intents.default()
 intents.members = True
 intents.voice_states = True
-bot = commands.Bot(command_prefix='D.', intents=intents)
+bot = commands.Bot(command_prefix='&', intents=intents)
 
 
 @bot.event
 async def on_ready():
     print(f"{bot.user} bora fecha porra!")
     bot.get_guild(165698427819130881).fetch_members()
-
-    # while True:
-    #     print('Heroku health-check!') # testar sem isso apos web to worker
-    #     await asyncio.sleep(240)
 
 
 @bot.event
@@ -28,7 +24,7 @@ async def on_message(ctx):
             return
 
         if ctx.content == 'pepen':
-            await ctx.channel.send('só um barrilzao na tela')
+            await ctx.channel.send('Deve ta em uma sala secreta kkj')
 
         if ctx.content == 'murilo':
             await ctx.channel.send('Vc quis dizer.. MINGUBILI?')
