@@ -66,7 +66,7 @@ async def nasty(ctx, arg):
 @bot.command()
 async def help(ctx):
     try:
-        await ctx.channel.send('_)_')
+        await ctx.channel.send('HELP?? kkj')
     except Exception as e:
         print(e.args)
 
