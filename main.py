@@ -23,36 +23,39 @@ async def on_ready():
 
 @bot.event
 async def on_message(ctx):
-    if ctx.author == bot.user:
-        return
+    try:
+        if ctx.author == bot.user:
+            return
 
-    if ctx.content == 'pepen':
-        await ctx.channel.send('só um barrilzao na tela')
+        if ctx.content == 'pepen':
+            await ctx.channel.send('só um barrilzao na tela')
 
-    if ctx.content == 'murilo':
-        await ctx.channel.send('Vc quis dizer.. MINGUBILI?')
+        if ctx.content == 'murilo':
+            await ctx.channel.send('Vc quis dizer.. MINGUBILI?')
 
-    if ctx.content == 'galassi':
-        await ctx.channel.send('https://imgur.com/LumBZES')
+        if ctx.content == 'galassi':
+            await ctx.channel.send('https://imgur.com/LumBZES')
 
-    if ctx.content == 'arthur':
-        await ctx.channel.send('https://imgur.com/7HHV3A9')
+        if ctx.content == 'arthur':
+            await ctx.channel.send('https://imgur.com/7HHV3A9')
 
-    if ctx.content == 'artcrazy':
-        await ctx.channel.send('https://imgur.com/kX39RAR')
+        if ctx.content == 'artcrazy':
+            await ctx.channel.send('https://imgur.com/kX39RAR')
 
-    if ctx.content == 'rato lenhador' \
-            or ctx.content == 'joints':
-        await ctx.channel.send('https://imgur.com/Dz8JUY5')
+        if ctx.content == 'rato lenhador' \
+                or ctx.content == 'joints':
+            await ctx.channel.send('https://imgur.com/Dz8JUY5')
 
-    if ctx.content == 'eliguedes' \
-            or ctx.content == 'eliezer':
-        await ctx.channel.send('https://imgur.com/VzsuVei')
+        if ctx.content == 'eliguedes' \
+                or ctx.content == 'eliezer':
+            await ctx.channel.send('https://imgur.com/VzsuVei')
 
-    if ctx.content == 'bora uma lowzinha':
-        await ctx.channel.send('https://imgur.com/2nJD4yT')
+        if ctx.content == 'bora uma lowzinha':
+            await ctx.channel.send('https://imgur.com/2nJD4yT')
 
-    await bot.process_commands(ctx)
+        await bot.process_commands(ctx)
+    except Exception as e:
+        print(e.args)
 
 
 # comando de testes
@@ -66,20 +69,29 @@ async def nasty(ctx, arg):
 
 @bot.event
 async def on_member_update(before, after):
-    print(f'{before.nick} alterado para {after.nick}')
+    try:
+        print(f'{before.nick} alterado para {after.nick}')
+    except Exception as e:
+        print(e.args)
 
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-    if after.self_deaf and not before.self_deaf:
-        await send_message_on_shitposting(f'{member.nick} se mutar vai levar um KIKAO NOS PEITO')
-        await asyncio.sleep(120)
-        if member.voice.self_deaf:
-            await member.move_to(get_afk_channel())
+    try:
+        if after.self_deaf and not before.self_deaf:
+            await send_message_on_shitposting(f'{member.nick} se mutar vai levar um KIKAO NOS PEITO')
+            await asyncio.sleep(120)
+            if member.voice.self_deaf:
+                await member.move_to(get_afk_channel())
+    except Exception as e:
+        print(e.args)
 
 
 async def send_message_on_shitposting(message):
-    await bot.guilds[0].get_channel(165698427819130881).send(message)
+    try:
+        await bot.guilds[0].get_channel(165698427819130881).send(message)
+    except Exception as e:
+        print(e.args)
 
 
 def get_afk_channel():
