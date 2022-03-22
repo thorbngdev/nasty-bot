@@ -1,1 +1,1 @@
-web: gunicorn nasty-bot.wsgi
+web: gunicorn nasty-bot-app.wsgi
