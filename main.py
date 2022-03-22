@@ -58,7 +58,10 @@ async def on_message(ctx):
 # comando de testes
 @bot.command()
 async def nasty(ctx, arg):
-    await ctx.channel.send(f'{arg} NASTY')
+    try:
+        await ctx.channel.send(f'{arg} NASTY')
+    except Exception as e:
+        print(e.args)
 
 
 @bot.event
