@@ -20,10 +20,10 @@ async def on_ready():
 @bot.event
 async def on_message(ctx):
     try:
-        if ctx.author == bot.user:
+        if ctx.author == bot.user or ctx.author.discriminator == '6685':
             return
 
-        if ctx.content == 'pepen':
+        if ctx.content.find('pepen') != -1:
             await ctx.channel.send('Deve ta em uma sala secreta kkj')
 
         if ctx.content == 'murilo':
@@ -83,7 +83,6 @@ async def on_member_update(before, after):
 async def on_voice_state_update(member, before, after):
     try:
         if after.self_deaf and not before.self_deaf:
-            await send_message_on_shitposting(f'{member.nick} se mutar vai levar um KIKAO NOS PEITO')
             await asyncio.sleep(120)
             if member.voice.self_deaf:
                 await member.move_to(get_afk_channel())
