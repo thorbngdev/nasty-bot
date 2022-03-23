@@ -84,6 +84,7 @@ async def pokefai(ctx):
         random_pokemon = pokemon_list[randint(0, 150)]
         pokemon_json = requests.get(f'https://pokeapi.co/api/v2/pokemon/{random_pokemon}').json()
         pokemon_name = pokemon_json['name']
+        pokemon_name_pretty = f'**{pokemon_name.capitalize()}**'
         pokemon_img = pokemon_json['sprites']['front_default']
         pokemon_types = pokemon_json['types']
         pokemon_type_str = ''
@@ -96,7 +97,7 @@ async def pokefai(ctx):
                 if resp.status != 200:
                     return await ctx.channel.send('Could not download file...')
                 data = io.BytesIO(await resp.read())
-                await ctx.channel.send(f'{pokemon_name}\n'
+                await ctx.channel.send(f'{pokemon_name_pretty}\n'
                                        f'Type: {pokemon_type_str}', file=discord.File(data, f'{pokemon_name}.png'))
                 # await ctx.channel.send(file=discord.File(data, f'{pokemon_name}.png'))
 
