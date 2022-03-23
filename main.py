@@ -83,7 +83,7 @@ async def on_member_update(before, after):
 async def on_voice_state_update(member, before, after):
     try:
         if after.self_deaf and not before.self_deaf:
-            await asyncio.sleep(120)
+            await asyncio.sleep(600)
             if member.voice.self_deaf:
                 await member.move_to(get_afk_channel())
     except Exception as e:
