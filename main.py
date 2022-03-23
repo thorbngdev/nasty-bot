@@ -1,8 +1,13 @@
 import asyncio
+import io
+from random import randint
 
-from discord.ext import commands
-from utils.credentials import get_bot_token
+import aiohttp
 import discord
+import requests
+from discord.ext import commands
+
+from utils.credentials import get_bot_token
 
 # documentation -> https://discordpy.readthedocs.io/en/stable/api.html
 intents = discord.Intents.default()
@@ -67,6 +72,34 @@ async def nasty(ctx, arg):
 async def help(ctx):
     try:
         await ctx.channel.send('HELP?? kkj')
+    except Exception as e:
+        print(e.args)
+
+
+@bot.command()
+async def pokefai(ctx):
+    try:
+        response = requests.get('https://pokeapi.co/api/v2/pokemon?limit=151')
+        pokemon_list = list(map(lambda p: p['name'], response.json()['results']))
+        random_pokemon = pokemon_list[randint(0, 150)]
+        pokemon_json = requests.get(f'https://pokeapi.co/api/v2/pokemon/{random_pokemon}').json()
+        pokemon_name = pokemon_json['name']
+        pokemon_img = pokemon_json['sprites']['front_default']
+        pokemon_types = pokemon_json['types']
+        pokemon_type_str = ''
+        for poke_type in pokemon_types:
+            pokemon_type_str += poke_type['type']['name']
+            if len(pokemon_types) == 2 and pokemon_type_str.count('/') == 0:
+                pokemon_type_str += '/'
+        async with aiohttp.ClientSession() as session:
+            async with session.get(pokemon_img) as resp:
+                if resp.status != 200:
+                    return await ctx.channel.send('Could not download file...')
+                data = io.BytesIO(await resp.read())
+                await ctx.channel.send(f'{pokemon_name}\n'
+                                       f'Type: {pokemon_type_str}', file=discord.File(data, f'{pokemon_name}.png'))
+                # await ctx.channel.send(file=discord.File(data, f'{pokemon_name}.png'))
+
     except Exception as e:
         print(e.args)
 
