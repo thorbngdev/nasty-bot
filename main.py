@@ -79,9 +79,9 @@ async def help(ctx):
 @bot.command()
 async def pokefai(ctx):
     try:
-        response = requests.get('https://pokeapi.co/api/v2/pokemon?limit=151')
+        response = requests.get('https://pokeapi.co/api/v2/pokemon?limit=987')
         pokemon_list = list(map(lambda p: p['name'], response.json()['results']))
-        random_pokemon = pokemon_list[randint(0, 150)]
+        random_pokemon = pokemon_list[randint(0, 986)]
         pokemon_json = requests.get(f'https://pokeapi.co/api/v2/pokemon/{random_pokemon}').json()
         pokemon_name = pokemon_json['name']
         pokemon_name_pretty = f'**{pokemon_name.capitalize()}**'
@@ -94,13 +94,10 @@ async def pokefai(ctx):
                 pokemon_type_str += '/'
         async with aiohttp.ClientSession() as session:
             async with session.get(pokemon_img) as resp:
-                if resp.status != 200:
-                    return await ctx.channel.send('Could not download file...')
                 data = io.BytesIO(await resp.read())
                 await ctx.channel.send(f'{pokemon_name_pretty}\n'
-                                       f'Type: {pokemon_type_str}', file=discord.File(data, f'{pokemon_name}.png'))
-                # await ctx.channel.send(file=discord.File(data, f'{pokemon_name}.png'))
-
+                                       f'Type: {pokemon_type_str}',
+                                       file=discord.File(data, f'{pokemon_name}.png'))
     except Exception as e:
         print(e.args)
 
