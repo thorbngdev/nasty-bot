@@ -1,6 +1,7 @@
 django
 gunicorn
 django-heroku
-discord
+discord~=1.7.3
 pokebase
-requests
+requests~=2.27.1
+aiohttp~=3.7.4.post0
