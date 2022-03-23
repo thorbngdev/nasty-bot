@@ -25,11 +25,8 @@ async def on_ready():
 @bot.event
 async def on_message(ctx):
     try:
-        if ctx.author == bot.user or ctx.author.discriminator == '6685':
+        if ctx.author == bot.user:
             return
-
-        if ctx.content.find('pepen') != -1:
-            await ctx.channel.send('Deve ta em uma sala secreta kkj')
 
         if ctx.content == 'murilo':
             await ctx.channel.send('Vc quis dizer.. MINGUBILI?')
