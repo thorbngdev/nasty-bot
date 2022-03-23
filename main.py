@@ -80,11 +80,24 @@ async def pokefai(ctx):
             pokemon_type_str += poke_type['type']['name']
             if len(pokemon_types) == 2 and pokemon_type_str.count('/') == 0:
                 pokemon_type_str += '/'
+        pokemon_stats = pokemon_json['stats']
+        pokemon_hp_value = pokemon_stats[0]['base_stat']
+        pokemon_attack_value = pokemon_stats[1]['base_stat']
+        pokemon_defense_value = pokemon_stats[2]['base_stat']
+        pokemon_sattack_value = pokemon_stats[3]['base_stat']
+        pokemon_sdefense_value = pokemon_stats[4]['base_stat']
+        pokemon_speed_value = pokemon_stats[5]['base_stat']
         async with aiohttp.ClientSession() as session:
             async with session.get(pokemon_img) as resp:
                 data = io.BytesIO(await resp.read())
                 await ctx.channel.send(f'{pokemon_name_pretty}\n'
-                                       f'Type: {pokemon_type_str}',
+                                       f'Type: {pokemon_type_str}\n'
+                                       f'``HP: {pokemon_hp_value} / '
+                                       f'Attack: {pokemon_attack_value} / '
+                                       f'Defense: {pokemon_defense_value} / '
+                                       f'S. Attack: {pokemon_sattack_value} / '
+                                       f'S. Defense: {pokemon_sdefense_value} / '
+                                       f'Speed: {pokemon_speed_value}``',
                                        file=discord.File(data, f'{pokemon_name}.png'))
     except Exception as e:
         print(e.args)
