@@ -20,12 +20,11 @@ bot = commands.Bot(command_prefix='&', intents=intents, help_command=None)
 
 # db defs
 conn = psycopg2.connect(
-    host="ec2-54-157-79-121.compute-1.amazonaws.com",
+    host="ec2-52-54-212-232.compute-1.amazonaws.com",
     # port="5432",
-    database="d23etf932b1cba",
-    user="mdmmavxkjavxkp",
-    password="3438cbc07422437ad8343729d07663c9b299fbf26d0209edb726e1854834a167")
-
+    database="d4vibnqsd2tsg4",
+    user="anpnmtxubrtvbo",
+    password="35c6bf772ac931b1731ee7b3ef61cf938adeabaa4f2e77dbe7f226f27d52f521")
 
 
 @bot.event
