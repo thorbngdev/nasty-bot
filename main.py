@@ -81,17 +81,16 @@ async def pokefai(ctx, args):
     try:
         if args == 'help':
             await ctx.channel.send('```'
-                                   'catch -> captura um pokemon\n'
+                                   'find -> encontra um pokemon\n'
+                                   'catch (soon) -> tenta capturar o pokemon\n'
                                    'pokedex (soon) -> lista seus pokemons```')
-        if args == 'catch':
+        if args == 'find':
             pokedex_threshold = 987
             response = requests.get(f'https://pokeapi.co/api/v2/pokemon?limit={pokedex_threshold}')
             pokemon_list = list(map(lambda p: p['name'], response.json()['results']))
             random_pokemon = pokemon_list[randint(0, (pokedex_threshold - 1))]
             pokemon_json = requests.get(f'https://pokeapi.co/api/v2/pokemon/{random_pokemon}').json()
             pokemon = Pokemon(json=pokemon_json)
-            insert_pokemon(ctx, pokemon)
-            print(f'{ctx.author.name} capturou um {pokemon.name}')
             async with aiohttp.ClientSession() as session:
                 async with session.get(pokemon.front_sprite) as resp:
                     data = io.BytesIO(await resp.read())
@@ -104,7 +103,10 @@ async def pokefai(ctx, args):
                                            f'S. Defense: {pokemon.special_defense} / '
                                            f'Speed: {pokemon.speed}``',
                                            file=discord.File(data, f'{pokemon.name}.png'))
-
+        if args == 'catch':
+            # insert_pokemon(ctx, pokemon)
+            # print(f'{ctx.author.name} capturou um {pokemon.name}')
+            pass
     except Exception as e:
         print(e.args)
 
