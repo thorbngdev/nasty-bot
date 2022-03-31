@@ -62,6 +62,9 @@ async def on_message(ctx):
         if ctx.content == 'bora uma lowzinha':
             await ctx.channel.send('https://imgur.com/2nJD4yT')
 
+        if ctx.content == 'ultimo avistamento':
+            await ctx.channel.send('https://cdn.discordapp.com/attachments/165698427819130881/958925528138657832/unknown.png')
+
         await bot.process_commands(ctx)
     except Exception as e:
         print(e.args)
