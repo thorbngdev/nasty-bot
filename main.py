@@ -19,12 +19,12 @@ intents.voice_states = True
 bot = commands.Bot(command_prefix='&', intents=intents, help_command=None)
 
 # db defs
-conn = psycopg2.connect(
-    host="ec2-52-54-212-232.compute-1.amazonaws.com",
-    # port="5432",
-    database="d4vibnqsd2tsg4",
-    user="anpnmtxubrtvbo",
-    password="35c6bf772ac931b1731ee7b3ef61cf938adeabaa4f2e77dbe7f226f27d52f521")
+# conn = psycopg2.connect(
+#     host="ec2-52-54-212-232.compute-1.amazonaws.com",
+#     # port="5432",
+#     database="d4vibnqsd2tsg4",
+#     user="anpnmtxubrtvbo",
+#     password="35c6bf772ac931b1731ee7b3ef61cf938adeabaa4f2e77dbe7f226f27d52f521")
 
 
 @bot.event
@@ -143,27 +143,27 @@ def get_afk_channel():
     return bot.guilds[0].get_channel(165742812380397568)
 
 
-def insert_pokemon(ctx, pokemon):
-    shiny = 1 if randint(0, 1000) == 500 else 0
-    cursor = conn.cursor()
-    cursor.execute('select * from pokedex where discord_id = %s and pokemon_id = %s and shiny = %s',
-                   (ctx.author.id, pokemon.id, shiny,))
-    obtained = cursor.fetchone()
-
-    if obtained:
-        cursor.close()
-        return
-
-    cursor.execute('insert into pokedex'
-                   '(discord_id, discord_name, pokemon_id, pokemon_name,'
-                   ' pokemon_type, front_sprite, back_sprite, shiny)'
-                   ' values (%s, %s, %s, %s, %s, %s, %s, %s)',
-                   (ctx.author.id, ctx.author.name, pokemon.id, pokemon.name, pokemon.type_str,
-                    pokemon.shiny_front_sprite if shiny else pokemon.front_sprite,
-                    pokemon.shiny_back_sprite if shiny else pokemon.back_sprite,
-                    shiny))
-    conn.commit()
-    cursor.close()
+# def insert_pokemon(ctx, pokemon):
+#     shiny = 1 if randint(0, 1000) == 500 else 0
+#     cursor = conn.cursor()
+#     cursor.execute('select * from pokedex where discord_id = %s and pokemon_id = %s and shiny = %s',
+#                    (ctx.author.id, pokemon.id, shiny,))
+#     obtained = cursor.fetchone()
+#
+#     if obtained:
+#         cursor.close()
+#         return
+#
+#     cursor.execute('insert into pokedex'
+#                    '(discord_id, discord_name, pokemon_id, pokemon_name,'
+#                    ' pokemon_type, front_sprite, back_sprite, shiny)'
+#                    ' values (%s, %s, %s, %s, %s, %s, %s, %s)',
+#                    (ctx.author.id, ctx.author.name, pokemon.id, pokemon.name, pokemon.type_str,
+#                     pokemon.shiny_front_sprite if shiny else pokemon.front_sprite,
+#                     pokemon.shiny_back_sprite if shiny else pokemon.back_sprite,
+#                     shiny))
+#     conn.commit()
+#     cursor.close()
 
 
 bot.run(get_bot_token())
