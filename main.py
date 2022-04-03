@@ -63,7 +63,8 @@ async def on_message(ctx):
             await ctx.channel.send('https://imgur.com/2nJD4yT')
 
         if ctx.content == 'ultimo avistamento':
-            await ctx.channel.send('https://cdn.discordapp.com/attachments/165698427819130881/958925528138657832/unknown.png')
+            await ctx.channel.send('https://cdn.discordapp.com/attachments/'
+                                   '165698427819130881/958925528138657832/unknown.png')
 
         await bot.process_commands(ctx)
     except Exception as e:
@@ -124,6 +125,9 @@ async def on_member_update(before, after):
 @bot.event
 async def on_voice_state_update(member, before, after):
     try:
+        if list(map(lambda r: r.id, member.roles)).count(356668830417944577) != 0:
+            return
+
         if after.self_deaf and not before.self_deaf:
             await asyncio.sleep(600)
             if member.voice.self_deaf:
