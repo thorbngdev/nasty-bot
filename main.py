@@ -94,8 +94,9 @@ async def pokefai(ctx, args):
             random_pokemon = pokemon_list[randint(0, (pokedex_threshold - 1))]
             pokemon_json = requests.get(f'https://pokeapi.co/api/v2/pokemon/{random_pokemon}').json()
             pokemon = Pokemon(json=pokemon_json)
+            sprite = f"http://play.pokemonshowdown.com/sprites/xyani/{pokemon.name}.gif"
             async with aiohttp.ClientSession() as session:
-                async with session.get(pokemon.front_sprite) as resp:
+                async with session.get(sprite) as resp:
                     data = io.BytesIO(await resp.read())
                     await ctx.channel.send(f'Le wild {pokemon.pretty_name} appears\n'
                                            f'Type: {pokemon.type_str}\n'
@@ -105,7 +106,7 @@ async def pokefai(ctx, args):
                                            f'S. Attack: {pokemon.special_attack} / '
                                            f'S. Defense: {pokemon.special_defense} / '
                                            f'Speed: {pokemon.speed}``',
-                                           file=discord.File(data, f'{pokemon.name}.png'))
+                                           file=discord.File(data, f'{pokemon.name}.gif'))
         if args == 'catch':
             # insert_pokemon(ctx, pokemon)
             # print(f'{ctx.author.name} capturou um {pokemon.name}')
