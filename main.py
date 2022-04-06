@@ -1,5 +1,6 @@
 import asyncio
 import io
+from datetime import date
 from random import randint
 
 import aiohttp
@@ -18,13 +19,12 @@ intents.members = True
 intents.voice_states = True
 bot = commands.Bot(command_prefix='&', intents=intents, help_command=None)
 
-# db defs
-# conn = psycopg2.connect(
-#     host="ec2-52-54-212-232.compute-1.amazonaws.com",
-#     # port="5432",
-#     database="d4vibnqsd2tsg4",
-#     user="anpnmtxubrtvbo",
-#     password="35c6bf772ac931b1731ee7b3ef61cf938adeabaa4f2e77dbe7f226f27d52f521")
+conn = psycopg2.connect(
+    host="ec2-34-192-210-139.compute-1.amazonaws.com",
+    # port="5432",
+    database="ddv3m3bd6ckph0",
+    user="helvumwyhbdpft",
+    password="ea1e03895800614aaf48fcf51850a1e5177481c626345310fbe269b282c97038")
 
 
 @bot.event
@@ -107,6 +107,11 @@ async def pokefai(ctx, args):
                                            f'S. Defense: {pokemon.special_defense} / '
                                            f'Speed: {pokemon.speed}``',
                                            file=discord.File(data, f'{pokemon.name}.gif'))
+
+        if args == 'check':
+            response = insert_pokeball(ctx)
+            await ctx.channel.send(response)
+
         if args == 'catch':
             # insert_pokemon(ctx, pokemon)
             # print(f'{ctx.author.name} capturou um {pokemon.name}')
@@ -148,27 +153,85 @@ def get_afk_channel():
     return bot.guilds[0].get_channel(165742812380397568)
 
 
-# def insert_pokemon(ctx, pokemon):
-#     shiny = 1 if randint(0, 1000) == 500 else 0
-#     cursor = conn.cursor()
-#     cursor.execute('select * from pokedex where discord_id = %s and pokemon_id = %s and shiny = %s',
-#                    (ctx.author.id, pokemon.id, shiny,))
-#     obtained = cursor.fetchone()
-#
-#     if obtained:
-#         cursor.close()
-#         return
-#
-#     cursor.execute('insert into pokedex'
-#                    '(discord_id, discord_name, pokemon_id, pokemon_name,'
-#                    ' pokemon_type, front_sprite, back_sprite, shiny)'
-#                    ' values (%s, %s, %s, %s, %s, %s, %s, %s)',
-#                    (ctx.author.id, ctx.author.name, pokemon.id, pokemon.name, pokemon.type_str,
-#                     pokemon.shiny_front_sprite if shiny else pokemon.front_sprite,
-#                     pokemon.shiny_back_sprite if shiny else pokemon.back_sprite,
-#                     shiny))
-#     conn.commit()
-#     cursor.close()
+def insert_pokemon(ctx, pokemon):
+    shiny = 1 if randint(0, 1000) == 500 else 0
+    cursor = conn.cursor()
+    cursor.execute('select * from pokedex where discord_id = %s and pokemon_id = %s and shiny = %s',
+                   (ctx.author.id, pokemon.id, shiny,))
+    obtained = cursor.fetchone()
+
+    if obtained:
+        cursor.close()
+        return
+
+    cursor.execute('insert into pokedex'
+                   '(discord_id, discord_name, pokemon_id, pokemon_name,'
+                   ' pokemon_type, front_sprite, back_sprite, shiny)'
+                   ' values (%s, %s, %s, %s, %s, %s, %s, %s)',
+                   (ctx.author.id, ctx.author.name, pokemon.id, pokemon.name, pokemon.type_str,
+                    pokemon.shiny_front_sprite if shiny else pokemon.front_sprite,
+                    pokemon.shiny_back_sprite if shiny else pokemon.back_sprite,
+                    shiny))
+    conn.commit()
+    cursor.close()
+
+
+def insert_pokeball(ctx):
+    today = date.today()
+    cursor = conn.cursor()
+    cursor.execute('select * from pokeball where discord_id = %s', (ctx.author.id,))
+    obtained = cursor.fetchone()
+    normal = 5
+    great = 2
+    ultra = 1
+    master = 1 if randint(0, 10) == 2 else 0
+    if not obtained:
+        cursor.execute('insert into pokeball'
+                       '(check_date, discord_id, discord_name, normal, great, ultra, master)'
+                       ' values (%s, %s, %s, %s, %s, %s, %s)',
+                       (today, ctx.author.id, ctx.author.name, normal, great, ultra, master))
+        conn.commit()
+        cursor.close()
+        return '```' \
+               '- Loot -\n' \
+               f'Obteve {normal} Pokeballs\n' \
+               f'Obteve {great} Great Balls\n' \
+               f'Obteve {ultra} Ultra Balls\n' \
+               f'Obteve {master} Master Balls\n\n' \
+               '- Bag -\n' \
+               f'Pokeball: {normal}\n' \
+               f'Great Ball: {great}\n' \
+               f'Ultra Ball: {ultra}\n' \
+               f'Master Ball: {master}' \
+               '```'
+    elif today == obtained[1]:
+        cursor.close()
+        return 'Ja pegou hoje carai'
+    else:
+        cursor.execute('update pokeball set normal = %s, great = %s, ultra = %s, master = %s,'
+                       ' check_date = %s'
+                       ' where discord_id = %s', (normal + int(obtained[4]),
+                                                 great + int(obtained[5]),
+                                                 ultra + int(obtained[6]),
+                                                 master + int(obtained[7]),
+                                                 today,
+                                                 ctx.author.id,))
+
+    conn.commit()
+    cursor.close()
+
+    return  '```' \
+            '- Loot -\n' \
+            f'Obteve {normal} Pokeballs\n' \
+            f'Obteve {great} Great Balls\n' \
+            f'Obteve {ultra} Ultra Balls\n' \
+            f'Obteve {master} Master Balls\n\n' \
+            '- Bag -\n' \
+            f'Pokeball: {int(obtained[3])}\n' \
+            f'Great Ball: {int(obtained[4])}\n' \
+            f'Ultra Ball: {int(obtained[5])}\n' \
+            f'Master Ball: {int(obtained[6])}' \
+            '```'
 
 
 bot.run(get_bot_token())
