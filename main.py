@@ -228,10 +228,10 @@ def insert_pokeball(ctx):
                     f'Obteve {ultra} Ultra Balls\n' \
                     f'Obteve {master} Master Balls\n\n' \
                     '- Bag -\n' \
-                    f'Pokeball: {int(obtained[4])}\n' \
-                    f'Great Ball: {int(obtained[5])}\n' \
-                    f'Ultra Ball: {int(obtained[6])}\n' \
-                    f'Master Ball: {int(obtained[7])}' \
+                    f'Pokeball: {normal + int(obtained[4])}\n' \
+                    f'Great Ball: {great + int(obtained[5])}\n' \
+                    f'Ultra Ball: {ultra + int(obtained[6])}\n' \
+                    f'Master Ball: {master + int(obtained[7])}' \
                     '```'
 
     cursor.close()
