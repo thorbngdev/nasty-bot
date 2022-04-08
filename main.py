@@ -209,8 +209,8 @@ def insert_pokeball(ctx):
                     f'Ultra Ball: {ultra}\n' \
                     f'Master Ball: {master}' \
                     '```'
-    # elif today == obtained[1]:
-    #     message = 'Ja pegou hoje carai'
+    elif today == obtained[1]:
+        message = 'Ja pegou hoje carai'
     else:
         cursor.execute('update pokeball set normal = %s, great = %s, ultra = %s, master = %s,'
                        ' check_date = %s'
