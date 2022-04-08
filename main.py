@@ -209,8 +209,8 @@ def insert_pokeball(ctx):
                     f'Ultra Ball: {ultra}\n' \
                     f'Master Ball: {master}' \
                     '```'
-    elif today == obtained[1]:
-        message = 'Ja pegou hoje carai'
+    # elif today == obtained[1]:
+    #     message = 'Ja pegou hoje carai'
     else:
         cursor.execute('update pokeball set normal = %s, great = %s, ultra = %s, master = %s,'
                        ' check_date = %s'
@@ -228,10 +228,10 @@ def insert_pokeball(ctx):
                     f'Obteve {ultra} Ultra Balls\n' \
                     f'Obteve {master} Master Balls\n\n' \
                     '- Bag -\n' \
-                    f'Pokeball: {int(obtained[3])}\n' \
-                    f'Great Ball: {int(obtained[4])}\n' \
-                    f'Ultra Ball: {int(obtained[5])}\n' \
-                    f'Master Ball: {int(obtained[6])}' \
+                    f'Pokeball: {int(obtained[4])}\n' \
+                    f'Great Ball: {int(obtained[5])}\n' \
+                    f'Ultra Ball: {int(obtained[6])}\n' \
+                    f'Master Ball: {int(obtained[7])}' \
                     '```'
 
     cursor.close()
