@@ -20,11 +20,11 @@ intents.voice_states = True
 bot = commands.Bot(command_prefix='&', intents=intents, help_command=None)
 
 conn = psycopg2.connect(
-    host="ec2-34-192-210-139.compute-1.amazonaws.com",
+    host="ec2-54-158-247-210.compute-1.amazonaws.com",
     # port="5432",
-    database="ddv3m3bd6ckph0",
-    user="helvumwyhbdpft",
-    password="ea1e03895800614aaf48fcf51850a1e5177481c626345310fbe269b282c97038")
+    database="de5rt2tk2avjul",
+    user="ckorztxaspjroe",
+    password="3af5f3741222f9aefff79c23ed555a7eb70772984171394052417ffacec55cf5")
 
 
 @bot.event
@@ -184,9 +184,9 @@ def insert_pokemon(ctx, pokemon):
 def insert_pokeball(ctx):
     today = date.today()
     message = ''
-    normal = 5
-    great = 2
-    ultra = 1
+    normal = randint(5, 9)
+    great = randint(3, 5)
+    ultra = randint(0, 3)
     master = 1 if randint(0, 10) == 2 else 0
     cursor = conn.cursor()
     cursor.execute('select * from pokeball where discord_id = %s', (ctx.author.id,))
